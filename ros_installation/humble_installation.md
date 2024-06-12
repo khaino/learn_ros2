@@ -7,3 +7,6 @@
 - create `ros2_ws/src` directory and go to `ros2_ws`
 - run `colcon build`
 - run `source install/local_setup.bash`
+- run `ros2 pkg create my_py_pkg --build-type  ament_python --dependencies rclpy`
+# Run a package
+- ros2 run my_py_pkg py_node
