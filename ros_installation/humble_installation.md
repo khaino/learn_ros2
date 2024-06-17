@@ -28,3 +28,7 @@
 - `ros2 topic hz /robot_news` frequency at which a topic receives msg
 - `ros2 topic bw /robot_news` bandwidth
 - `ros2 topic pub -r 5 /robot_news example_interfaces/msg/String "{data: 'Hello from terminal'}"` publish message
+
+# Service
+- `ros2 service list`
+- `ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b:8}"` to call a service from terminal
