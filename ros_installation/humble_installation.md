@@ -20,3 +20,11 @@
 # ROS2 messages
 - `ros2 interface show example_interfaces/msg/String` to check a message
 - `ros2 topic echo /robot_news` to log messages received on a topic
+
+# ROS2 topic debugging
+- `ros2 topic list` show all the topics
+- `ros2 topic info /robot_news` more information about a topic
+- `ros2 topic echo /robot_news` to log messages received on a topic
+- `ros2 topic hz /robot_news` frequency at which a topic receives msg
+- `ros2 topic bw /robot_news` bandwidth
+- `ros2 topic pub -r 5 /robot_news example_interfaces/msg/String "{data: 'Hello from terminal'}"` publish message
