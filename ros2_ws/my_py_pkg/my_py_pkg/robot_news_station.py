@@ -17,6 +17,7 @@ class RobotNewsStationNode(Node):
         msg = String()
         msg.data = "Hello"
         self.publisher_.publish(msg)
+        self.get_logger().info(msg.data)
 
 def main(args=None):
     rclpy.init(args=args)
