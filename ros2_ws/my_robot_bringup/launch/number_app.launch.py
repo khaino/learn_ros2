@@ -6,12 +6,22 @@ def generate_launch_description():
 
     robot_news_station_node = Node(
         package="my_py_pkg",
-        executable="robot_news_station"
+        executable="robot_news_station",
+        # to rename
+        name="hello_sender",
+        # remap topic
+        remappings=[
+            ("robot_news", "hello_news")
+        ]
     )
 
     smartphone_node = Node(
         package="my_py_pkg",
-        executable="smartphone"
+        executable="smartphone",
+        name="hello_receiver",
+        remappings=[
+            ("robot_news", "hello_news")
+        ]
     )
 
     ld.add_action(robot_news_station_node)
