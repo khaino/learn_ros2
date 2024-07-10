@@ -3,16 +3,98 @@
 import rclpy
 import time
 from rclpy.node import Node
+from pynput import keyboard
+
+msg = """
+Direction Control
+-----------
+     i    
+j         l
+     ,
+-----------
+i : forward
+, : reverse
+j : left steering
+l : right steering
+-----------
+Speed Control
+-----------
+e : speed up (+1)
+d : speed down (-1)
+-----------
+"""
 
 class KeyboardControl(Node):
+
+    MAX_SPEED = 10
+
     def __init__(self):
         super().__init__("keyboard_control")
-        self.get_logger().info("keyboard_control initialized!")
+        self.logger = self.get_logger()
+        self.logger.info("keyboard_control initialized!")
+
+        self.speed = 1
+        self.direction_control = {
+            'i': 0,
+            'j': 0,
+            'l': 0,
+            ',': 0
+        }
+        self.speed_control = {
+            
+        }
+
+    def _log(self, msg):
+        self.get_logger().info(msg)
+
+    def _set_speed(self, speed):
+        self.speed = min(KeyboardControl.MAX_SPEED, speed)
 
     def start(self):
-        while True:
-            print("Hello World!")
-            time.sleep(1)
+        self.get_logger().info(f"____start_____")
+        running = True
+        while running:
+            with keyboard.Listener(
+                on_press=self.on_press,
+                on_release=self.on_release) as listener:
+                listener.join()
+
+                
+    def on_press(self, key):
+        try:
+            if hasattr(key, 'char') and key.char.lower() in self.direction_control:
+                k = key.char.lower()
+                print(f"Key pressed: {key.char}")
+                self.direction_control[k] = 1
+
+                if self.direction_control['i'] == 1 and self.direction_control[','] == 1:
+                    self.direction_control['i'] = 0
+                    self.direction_control[','] = 0
+                    self.logger.warn("Do not press `i' and `,` at the same time!!")
+                    self.logger.info(msg)
+                    
+                elif self.direction_control['j'] == 1 and self.direction_control['l'] == 1:
+                    self.direction_control['j'] = 0
+                    self.direction_control['l'] = 0
+                    self.logger.warn("Do not press `j' and `l` at the same time!!")
+                    self.logger.info(msg)
+
+                print(self.direction_control)
+            else:
+                print(f"Invalid key pressed: {key}")
+        except AttributeError:
+            print('special key {0} pressed'.format(
+                key))
+            
+    def on_release(self, key):
+        if hasattr(key, 'char') and key.char.lower() in self.direction_control:
+            k = key.char.lower()
+            self.direction_control[k] = 0
+            print(self.direction_control)
+            print('{0} released'.format(key))
+        if key == keyboard.Key.esc:
+            # Stop listener
+            return False
 
 
 def main(args=None):
