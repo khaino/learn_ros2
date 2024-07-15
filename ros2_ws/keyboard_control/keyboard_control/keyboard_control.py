@@ -7,14 +7,14 @@ from pynput import keyboard
 msg = """
 Direction Control
 -----------
-     w    
-a         d
-     s
+     i    
+j         l
+     k
 -----------
-w : forward
-s : reverse
-a : left steering
-d : right steering
+i : forward
+k : reverse
+j : left steering
+l : right steering
 -----------
 Speed Control
 -----------
@@ -34,9 +34,9 @@ class KeyboardControl(Node):
 
         self.speed = 0.5
         self.direction_control = {
-            'w': 0,
-            'a': 0,
-            'd': 0,
+            'i': 0,
+            'k': 0,
+            'l': 0, 
             's': 0
         }
 
@@ -56,16 +56,16 @@ class KeyboardControl(Node):
                 k = key.char.lower()
                 self.direction_control[k] = 1
 
-                if self.direction_control['w'] == 1 and self.direction_control['s'] == 1:
-                    self.direction_control['w'] = 0
-                    self.direction_control['s'] = 0
-                    self.logger.warn("Do not press 'w' and `s` at the same time!!")
+                if self.direction_control['i'] == 1 and self.direction_control['s'] == 1:
+                    self.direction_control['i'] = 0
+                    self.direction_control['k'] = 0
+                    self.logger.warn("Do not press 'i' and `k` at the same time!!")
                     self.logger.info(msg)
                     
-                elif self.direction_control['a'] == 1 and self.direction_control['d'] == 1:
-                    self.direction_control['a'] = 0
-                    self.direction_control['d'] = 0
-                    self.logger.warn("Do not press `a' and `d` at the same time!!")
+                elif self.direction_control['j'] == 1 and self.direction_control['d'] == 1:
+                    self.direction_control['j'] = 0
+                    self.direction_control['l'] = 0
+                    self.logger.warn("Do not press `j' and `l` at the same time!!")
                     self.logger.info(msg)
 
                 self.publish_twist()
@@ -90,7 +90,7 @@ class KeyboardControl(Node):
         msg.linear.x = self.speed * (self.direction_control['w'] - self.direction_control['s'])
         msg.angular.z = self.speed * (self.direction_control['d'] - self.direction_control['a'])
         self.publisher.publish(msg)
-        self.logger.info(f"Twist message published:\n")
+        self.logger.info(f"Twist message published: { msg}")
 
 def main(args=None):
     rclpy.init(args=args)
