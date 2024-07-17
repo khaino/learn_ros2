@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-
 import rclpy
-import time
+import geometry_msgs.msg
 from rclpy.node import Node
 from pynput import keyboard
 
@@ -42,7 +40,7 @@ class KeyboardControl(Node):
         self.logger = self.get_logger()
         self.logger.info("keyboard_control initialized!")
 
-        self.speed = 1
+        self.speed = 0.5
         self.direction_control = {
             self.FORWARD: 0,
             self.REVERSE: 0,
@@ -51,17 +49,26 @@ class KeyboardControl(Node):
         }
         self.speed_control = {self.SPEED_UP, self.SPEED_DOWN}
 
+        # Publisher for Twist messages
+        self.publisher = self.create_publisher(geometry_msgs.msg.Twist, 'keyboard_control', 10)
+
+        # Create a timer that runs every 0.5 seconds
+        self.timer = self.create_timer(0.5, self.publish_twist)
+
+        # Keyboard listener setup
+        self.keyboard_listener = keyboard.Listener(
+            on_press=self.on_press,
+            on_release=self.on_release
+        )
+
     def _set_speed(self, speed):
         self.speed = min(KeyboardControl.MAX_SPEED, speed)
 
     def start(self):
-        self.get_logger().info(f"____start_____")
-        running = True
-        while running:
-            with keyboard.Listener(
-                on_press=self.on_press,
-                on_release=self.on_release) as listener:
-                listener.join()
+        self.logger.info("Starting keyboard listener...")
+        self.keyboard_listener.start()
+        self.logger.info("Starting ROS spin...")
+        rclpy.spin(self)
 
     def on_press(self, key):
         try:
@@ -89,10 +96,8 @@ class KeyboardControl(Node):
             elif ch in self.speed_control:
                 self.update_speed(ch)
             self.display_current_state()
-
         except AttributeError:
-            self.logger.warn('Special key {0} pressed'.format(
-                key))
+            self.logger.warn('Special key {0} pressed'.format(key))
             
     def on_release(self, key):
         if hasattr(key, 'char') and key.char.lower() in self.direction_control:
@@ -108,6 +113,14 @@ class KeyboardControl(Node):
         elif key == self.SPEED_DOWN:
             self.speed = max(self.speed - self.SPEED_STEP, self.MIN_SPEED)
 
+    def publish_twist(self):
+        msg = geometry_msgs.msg.Twist()
+        # Set linear and angular velocities based on direction control and speed
+        msg.linear.x = self.speed * (self.direction_control[self.FORWARD]-self.direction_control[self.REVERSE])
+        msg.angular.z = (self.direction_control[self.RIGHT] + self.direction_control[self.LEFT])/1.0
+        self.publisher.publish(msg)
+        self.logger.info(f"Twist message published: {msg}")
+
     def display_current_state(self):
         forward = self.direction_control[self.FORWARD]
         reverse = self.direction_control[self.REVERSE]
@@ -121,8 +134,6 @@ def main(args=None):
     rclpy.init(args=args)
     node = KeyboardControl()
     node.start()
-    rclpy.spin(node)
     rclpy.shutdown()
-
 if __name__ == "__main__":
     main()
