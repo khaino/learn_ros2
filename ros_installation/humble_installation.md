@@ -33,3 +33,12 @@
 - `ros2 service list`
 - `ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b:8}"` to call a service from terminal
 - `ros2 service type /add_two_ints` to get the type the
+
+
+
+# Nav2
+### Installation
+- `sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-turtlebot3*`
+
+## There is issue in installing Gazebo, therefore gazebo garden using the follwing link
+https://gazebosim.org/docs/garden/install_ubuntu
