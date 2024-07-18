@@ -53,7 +53,7 @@ class KeyboardControl(Node):
         self.publisher = self.create_publisher(geometry_msgs.msg.Twist, 'keyboard_control', 10)
 
         # Create a timer that runs every 0.5 seconds
-        self.timer = self.create_timer(0.5, self.publish_twist)
+        self.timer = self.create_timer(1.5, self.publish_twist)
 
         # Keyboard listener setup
         self.keyboard_listener = keyboard.Listener(
@@ -116,7 +116,7 @@ class KeyboardControl(Node):
     def publish_twist(self):
         msg = geometry_msgs.msg.Twist()
         # Set linear and angular velocities based on direction control and speed
-        msg.linear.x = self.speed * (self.direction_control[self.FORWARD]-self.direction_control[self.REVERSE])
+        msg.linear.x = (self.speed * (self.direction_control[self.FORWARD]-self.direction_control[self.REVERSE]))
         msg.angular.z = (self.direction_control[self.RIGHT] + self.direction_control[self.LEFT])/1.0
         self.publisher.publish(msg)
         self.logger.info(f"Twist message published: {msg}")
