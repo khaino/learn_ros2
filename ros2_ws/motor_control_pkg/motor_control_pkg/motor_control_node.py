@@ -24,7 +24,7 @@ class MotorNode(Node):
         self.get_logger().info("publishing velocities")
 
         
-        self.subscription = self.create_subscription(Twist,'/twist_mux/cmd_vel',self.listener_callback,1)
+        self.subscription = self.create_subscription(Twist,'keyboard_control',self.listener_callback,1)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
