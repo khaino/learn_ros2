@@ -67,10 +67,17 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends git
 
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
     python3-colcon-common-extensions \
-    build-essential
+    build-essential \
+    libasio-dev
+
 
 # RUN git clone https://github.com/ros2/ros1_bridge.git
-
+RUN apt-get update && apt-get install -q -y --no-install-recommends \
+    ros-noetic-tf \
+    ros-noetic-tf2* \
+    iproute2 \
+    kmod \
+    ros-noetic-teleop-twist-keyboard
 
 # setup entrypoint
 COPY ./ros_entrypoint.sh /

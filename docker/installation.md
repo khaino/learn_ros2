@@ -6,6 +6,8 @@ sudo apt install ros-noetic-tf2*
 sudo apt install iproute2
 sudo apt-get install kmod
 
+sudo apt-get install ros-noetic-tf2
+sudo apt-get install ros-noetic-tf2-ros
 
 https://docs.nvidia.com/jetson/archives/r36.2/DeveloperGuide/SD/Kernel/KernelCustomization.html#building-the-jetson-linux-kernel
 tar xf public_sources.tbz2 -C install/
