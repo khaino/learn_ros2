@@ -63,6 +63,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ##########
 
 # install Git
+RUN apt-get update && apt-get install -q -y --no-install-recommends apt-utils
+
+# install Git
 RUN apt-get update && apt-get install -q -y --no-install-recommends git
 
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
@@ -77,7 +80,16 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     ros-noetic-tf2* \
     iproute2 \
     kmod \
-    ros-noetic-teleop-twist-keyboard
+    ros-noetic-teleop-twist-keyboard 
+
+RUN apt-get update && apt-get install -q -y --no-install-recommends linux-generic 
+RUN cp -r /lib/modules/5.4.0-190-generic/ /lib/modules/5.10.104-tegra
+# Build catkin_ws
+RUN mkdir -p /catkin_ws/src
+RUN cd /catkin_ws/src && git clone https://github.com/agilexrobotics/ugv_sdk.git 
+RUN cd /catkin_ws/src && git clone https://github.com/agilexrobotics/scout_ros.git
+RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/noetic/setup.bash && catkin_make && env"
+# RUN /bin/bash -c "catkin_make && env"
 
 # setup entrypoint
 COPY ./ros_entrypoint.sh /

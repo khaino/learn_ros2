@@ -6,6 +6,7 @@ sudo apt install ros-noetic-tf2*
 sudo apt install iproute2
 sudo apt-get install kmod
 
+sudo apt-get install ros-noetic-tf
 sudo apt-get install ros-noetic-tf2
 sudo apt-get install ros-noetic-tf2-ros
 
@@ -24,3 +25,10 @@ rostopic pub -r 3 /example_topic std_msgs/String "data: 'Hello, World'"
 
 ROS2 bridge
 [colcon build](https://docs.ros.org/en/humble/How-To-Guides/Using-ros1_bridge-Jammy-upstream.html)colcon build
+
+wget https://developer.nvidia.com/downloads/embedded/l4t/r35_release_v5.0/sources/public_sources.tbz2
+mkdir -p /lib/modules/5.10.104-tegra
+tar xf public_sources.tbz2 -C /lib/modules/5.10.104-tegra
+
+
+cp -r /lib/modules/5.4.0-190-generic/ /lib/modules/5.10.104-tegra
