@@ -32,3 +32,10 @@ tar xf public_sources.tbz2 -C /lib/modules/5.10.104-tegra
 
 
 cp -r /lib/modules/5.4.0-190-generic/ /lib/modules/5.10.104-tegra
+
+ip -det link show can0
+
+
+rosrun scout_bringup setup_can2usb.bash
+sudo modprobe gs_usb
+source /opt/ros/noetic/setup.bash
