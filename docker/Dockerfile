@@ -60,7 +60,7 @@ ENV LC_ALL C.UTF-8
 RUN apt-get update && apt-get install -q -y --no-install-recommends git
 
 RUN apt-get update && apt-get install -q -y --no-install-recommends linux-generic 
-RUN cp -r /lib/modules/5.4.0-190-generic /lib/modules/5.10.104-tegra
+RUN cp -r /lib/modules/5.4.0-192-generic /lib/modules/5.10.104-tegra
 
 ##### setup scout mobile robot wrapper #####
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
@@ -79,8 +79,10 @@ RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/noetic/setup.bash && catkin_m
 ##########
 # ENV ROS_DISTRO noetic
 
+RUN mkdir -p /scripts
 # setup entrypoint
-COPY ./ros_entrypoint.sh /
+COPY ./ros_entrypoint.sh /scripts/
+COPY ./init.sh /scripts/
 
-ENTRYPOINT ["/ros_entrypoint.sh"]
+ENTRYPOINT ["/scripts/init.sh"]
 CMD ["bash"]

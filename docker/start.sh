@@ -1,1 +1,1 @@
-docker run --name neotic-foxy -it --network=host roscb
+docker run --name bridge -it --network=host --cap-add=NET_ADMIN roscb

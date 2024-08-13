@@ -39,3 +39,8 @@ ip -det link show can0
 rosrun scout_bringup setup_can2usb.bash
 sudo modprobe gs_usb
 source /opt/ros/noetic/setup.bash
+cd catkin_ws/
+source devel/setup.bash 
+
+
+docker build -t roscb .
