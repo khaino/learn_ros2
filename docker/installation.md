@@ -20,7 +20,7 @@ sudo apt install --reinstall linux-image-$(uname -r) -y;
 sudo apt install --reinstall linux-modules-$(uname -r) -y;
 sudo apt install --reinstall linux-modules-extra-$(uname -r) -y;
 
-ros2 topic pub /ros2_topic std_msgs/msg/String "data: 'Hello, ROS 2'"
+ros2 topic pub /ros2_topic_a std_msgs/msg/String "data: 'Hello, ROS 2'"
 rostopic pub -r 3 /example_topic std_msgs/String "data: 'Hello, World'"
 
 ROS2 bridge

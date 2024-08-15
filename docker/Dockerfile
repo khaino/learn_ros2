@@ -77,7 +77,9 @@ RUN cd /catkin_ws/src && git clone https://github.com/agilexrobotics/ugv_sdk.git
 RUN cd /catkin_ws/src && git clone https://github.com/agilexrobotics/scout_ros.git
 RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/noetic/setup.bash && catkin_make && env"
 ##########
-# ENV ROS_DISTRO noetic
+
+# install bridge
+RUN apt-get update && apt-get install -q -y --no-install-recommends ros-foxy-ros1-bridge
 
 RUN mkdir -p /scripts
 # setup entrypoint
