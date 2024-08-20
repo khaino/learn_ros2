@@ -82,9 +82,12 @@ RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/noetic/setup.bash && catkin_m
 RUN apt-get update && apt-get install -q -y --no-install-recommends ros-foxy-ros1-bridge
 
 RUN mkdir -p /scripts
+RUN mkdir -p /config
 # setup entrypoint
 COPY ./ros_entrypoint.sh /scripts/
 COPY ./init.sh /scripts/
+COPY ./start_bridge.sh /scripts/
+COPY ./config.yml /config/
 
 ENTRYPOINT ["/scripts/init.sh"]
 CMD ["bash"]

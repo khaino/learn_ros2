@@ -2,15 +2,7 @@ docker run -it --name master ros:noetic bash
 apt-get update
 
 sudo apt install git-all
-sudo apt install ros-noetic-tf2*
-sudo apt install iproute2
-sudo apt-get install kmod
-
-sudo apt-get install ros-noetic-tf
-sudo apt-get install ros-noetic-tf2
-sudo apt-get install ros-noetic-tf2-ros
-
-https://docs.nvidia.com/jetson/archives/r36.2/DeveloperGuide/SD/Kernel/KernelCustomization.html#building-the-jetson-linux-kernel
+sudo apt install ros-noetic-tf2*scripts36.2/DeveloperGuide/SD/Kernel/KernelCustomization.html#building-the-jetson-linux-kernel
 tar xf public_sources.tbz2 -C install/
 
 
@@ -44,3 +36,12 @@ source devel/setup.bash
 
 
 docker build -t roscb .
+std_msgs/String
+
+ros2 topic pub /bridge_msg std_msgs/String "data: 'Hello, ROS 2'"
+
+ros2 topic pub /bridge_msg std_msgs/String "data: 'Hello, ROS 2'"
+Parameter Bridge Guide
+https://github.com/ros2/ros1_bridge#example-4-bridge-only-selected-topics-and-services
+
+rosparam load config/config.yml

@@ -1,0 +1,9 @@
+topics:
+  -
+    topic: /bridge_msg
+    type: std_msgs/msg/String
+    queue_size: 10
+  -
+    topic: /cmd_vel
+    type: geometry_msgs/msg/Twist
+    queue_size: 10
